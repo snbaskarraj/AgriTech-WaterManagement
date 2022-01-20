@@ -1,0 +1,29 @@
+{
+  "latitude": "-122.08",
+  "longitude": "37.39",
+  "sprinklers": [{
+      "id": "sprinkler1",
+      "devices_per_sprinkler": 5,
+      "min_devices_to_alarm": 2
+    },
+    {
+      "id": "sprinkler2",
+      "devices_per_sprinkler": 5,
+      "min_devices_to_alarm": 2
+    },
+    {
+      "id": "sprinkler3",
+      "devices_per_sprinkler": 5,
+      "min_devices_to_alarm": 2
+    },
+    {
+      "id": "sprinkler4",
+      "devices_per_sprinkler": 5,
+      "min_devices_to_alarm": 3
+    },
+    {
+      "id": "sprinkler5",
+      "devices_per_sprinkler": 5,
+      "min_devices_to_alarm": 3
+    }]
+}
