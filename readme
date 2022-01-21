@@ -1,0 +1,6 @@
+# Publish soil sensor data messages to iot core
+python SoilSensorPublish.py -e a1ydwct3h0biqw-ats.iot.us-east-1.amazonaws.com -r ..\certs\AmazonRootCA1.pem -c  ..\certs\SS_Temp01-certificate.pem.crt -k ..\certs\SS_Temp01-private.pem.key -t iot/agritech
+
+# Subscribe messages from sprinkler controller
+python SprinklerActuator.py -e a1ydwct3h0biqw-ats.iot.us-east-1.amazonaws.com -r ..\certs\AmazonRootCA1.pem -c  ..\certs\SS_Temp01-certificate.pem.crt -k ..\certs\SS_Temp01-private.pem.key -t iot/agritech
+
