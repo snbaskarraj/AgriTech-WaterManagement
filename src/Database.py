@@ -33,6 +33,21 @@ def get_sprinkler_data(sprinkler_id):
         return response
 
 
+def get_all_sensor_data():
+    dynamodb = boto3.resource('dynamodb', region_name='us-east-1')
+    sensor_info_table = dynamodb.Table('sensor_info')
+
+    try:
+        # kwargs = {'KeyConditionExpression': Key('sprinkler_id').eq(sprinkler_id)}
+        # response = sensor_info_table.query(**kwargs)
+        response = sensor_info_table.scan()
+        # pprint(response)
+    except ClientError as e:
+        print(e.response['Error']['Message'])
+    else:
+        return response['Items']
+
+
 def get_sensor_data(sprinkler_id):
     dynamodb = boto3.resource('dynamodb', region_name='us-east-1')
     sensor_info_table = dynamodb.Table('sensor_info')
