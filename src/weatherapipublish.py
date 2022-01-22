@@ -9,13 +9,14 @@ from decimal import Decimal
 from boto3.dynamodb.conditions import Key
 import time
 
-dynamodb = boto3.resource('dynamodb')
+dynamodb = boto3.resource('dynamodb', region_name='us-east-1')
 
 api_key = "54c569d5fe4ca62779e9a5577ed75c04"
 lat = "48.208176" #default
 lon = "16.373819" #default
 
-#to query dynamodb
+
+# to query dynamodb
 def query_db():
     table = dynamodb.Table('sprinkler_info')
     resp = table.query(
@@ -25,12 +26,13 @@ def query_db():
     if 'Items' in resp:
         lat = resp['Items'][0]['lat']
         lon = resp['Items'][0]['long']
+        return str(lat) + "_" + str(lon)
 
 
-#to store in dyanamodb
+# to store in dyanamodb
 def put_item_in_database(data):
     
-    table = dynamodb.Table('weather_info')      
+    table = dynamodb.Table('weather_info')
     timestamp = str(datetime.datetime.now())
     temperature = data["current"]["temp"]
     humidity = data["current"]["humidity"]
@@ -38,8 +40,7 @@ def put_item_in_database(data):
     resp = table.put_item(
             Item={
                 'timestamp': timestamp,
-                'lat': Decimal(str(lat)),
-                'long': Decimal(str(lon)),
+                'lat_long': lat_long,
                 'temperature': Decimal(str(temperature)),
                 'humidity': Decimal(str(humidity))
             }
@@ -48,10 +49,12 @@ def put_item_in_database(data):
     if 'Item' in resp:
         print(resp['Item'])
 
-query_db() #gets the lat and long
 
-print(lat)
-print(lon)
+lat_long = query_db() #gets the lat and long
+
+# print(lat)
+# print(lon)
+print(lat_long)
 
 ONE_HOUR = 1 * 60 * 60  # seconds
 ONE_MINUTE = 1 * 60  # seconds

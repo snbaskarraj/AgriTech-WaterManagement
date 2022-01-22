@@ -99,8 +99,8 @@ def get_weather_for_given_lat_long(lat, long):
     sensor_info_table = dynamodb.Table('weather_info')
 
     try:
-        response = sensor_info_table.query(IndexName='lat-long-index', KeyConditionExpression=Key('lat').eq(str(lat))
-                                                                                              & Key('long').eq(str(long)))
+        lat_long = str(lat) + "_" + str(long)
+        response = sensor_info_table.query(KeyConditionExpression=Key('lat_long').eq(lat_long))
         # pprint(response)
     except ClientError as e:
         print(e.response['Error']['Message'])

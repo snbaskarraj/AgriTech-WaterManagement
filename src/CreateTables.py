@@ -81,14 +81,22 @@ def create_weather_info_table(dynamodb=None):
         TableName='weather_info',
         KeySchema=[
             {
-                'AttributeName': 'timestamp',
+                'AttributeName': 'lat_long',
                 'KeyType': 'HASH'  # Partition key
+            },
+            {
+                'AttributeName': 'timestamp',
+                'KeyType': 'RANGE'  # Sort key
             }
         ],
         AttributeDefinitions=[
             {
-                'AttributeName': 'timestamp',
+                'AttributeName': 'lat_long',
                 # AttributeType defines the data type. 'S' is string type and 'N' is number type
+                'AttributeType': 'S'
+            },
+            {
+                'AttributeName': 'timestamp',
                 'AttributeType': 'S'
             }
         ],
@@ -174,17 +182,17 @@ def create_sprinkler_actions_table(dynamodb=None):
 
 
 if __name__ == '__main__':
-    sprinkler_info_table = create_sprinkler_info_table()
-    print("Status: ", sprinkler_info_table.table_status)
-
-    sensor_info_table = create_sensor_info_table()
-    print("Status: ", sensor_info_table.table_status)
+    # sprinkler_info_table = create_sprinkler_info_table()
+    # print("Status: ", sprinkler_info_table.table_status)
+    #
+    # sensor_info_table = create_sensor_info_table()
+    # print("Status: ", sensor_info_table.table_status)
 
     weather_info_table = create_weather_info_table()
     print("Status: ", weather_info_table.table_status)
 
-    soil_moisture_info_table = create_soil_moisture_info_table()
-    print("Status: ", soil_moisture_info_table.table_status)
-
-    sprinkler_actions_table = create_sprinkler_actions_table()
-    print("Status: ", sprinkler_actions_table.table_status)
+    # soil_moisture_info_table = create_soil_moisture_info_table()
+    # print("Status: ", soil_moisture_info_table.table_status)
+    #
+    # sprinkler_actions_table = create_sprinkler_actions_table()
+    # print("Status: ", sprinkler_actions_table.table_status)

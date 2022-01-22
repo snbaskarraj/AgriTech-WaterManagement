@@ -55,7 +55,7 @@ def get_weather_info(lat, long):
     print(f'lat: {lat}; long: {long}')
     weather_info = get_weather_for_given_lat_long(lat, long)
     # pprint(weather_info['Items'])
-    return weather_info
+    return weather_info['Items']
 
 
 def get_last_action_for_sprinkler(sprinkler):
@@ -109,11 +109,8 @@ def main_algorithm(config):
 
         # Fetch weather data for the lat/long
         weather_data = get_weather_info(sprinkler['lat'], sprinkler['long'])
-        if weather_data is None:
-            print('weather data is none; so hard coding')
-            weather_data = [10, 10]
-        actual_air_temperature = weather_data[0]
-        actual_humidity = weather_data[1]
+        actual_air_temperature = weather_data[0]['temperature']
+        actual_humidity = weather_data[0]['humidity']
 
         print(f'actual_air_temperature: {actual_air_temperature}')
         print(f'actual_humidity: {actual_humidity}')
