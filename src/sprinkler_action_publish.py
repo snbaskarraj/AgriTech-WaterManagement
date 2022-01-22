@@ -35,7 +35,7 @@ class AWS():
     # Before publishing we are configuring message to be published on MQTT
     def publish(self, sprinkler_id, action):
         print('Begin Publish')
-        for i in range (10):
+        for i in range (1):
             message = {}    
             timestamp = str(datetime.datetime.now())
             message['sprinkler_id'] = sprinkler_id
