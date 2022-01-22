@@ -68,8 +68,8 @@ def get_last_action_for_sprinkler(sprinkler):
 
 
 def send_message(sprinkler, action):
-    sprinkler_sensor = AWS("sprinkler_sensor", "thing_1_certificate_filename", "thing_1_private_key_filename", action)
-    sprinkler_sensor.publish(sprinkler['sprinkler_id'], action)
+    sprinkler_sensor = AWS(sprinkler['sprinkler_id'], "thing_1_certificate_filename", "thing_1_private_key_filename", action)
+    sprinkler_sensor.publish()
     return
 
 
