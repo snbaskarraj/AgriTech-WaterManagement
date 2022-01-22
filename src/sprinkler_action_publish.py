@@ -6,7 +6,7 @@ import datetime
 import sched
 
 # Define ENDPOINT, TOPIC, RELATOVE DIRECTORY for CERTIFICATE AND KEYS
-ENDPOINT = "account_endpoint_for_things.amazonaws.com"
+ENDPOINT = "a1ydwct3h0biqw-ats.iot.us-east-1.amazonaws.com"
 PATH_TO_CERT = "..\\config"
 TOPIC = "iot/sprinkler"
 
@@ -54,11 +54,11 @@ class AWS():
 # Main method with actual objects and method calling to publish the data in MQTT
 # Again this is a minimal example that can be extended to incopporate more devices
 # Also there can be different method calls as well based on the devices and their working.
-if __name__ == '__main__':
+#if __name__ == '__main__':
     # SOil sensor device Objects
-    sprinkler_sensor_ON = AWS("sprinkler_sensor_ON", "thing_1_certificate_filename", "thing_1_private_key_filename", "ON")
-    soil_sensor_OFF = AWS("sprinkler_sensor_OFF", "thing_2_certificate_filename", "thing_2_private_key_filename", "OFF")
+    #sprinkler_sensor_ON = AWS("sprinkler_sensor_ON", "thing_1_certificate_filename", "thing_1_private_key_filename", "ON")
+    #soil_sensor_OFF = AWS("sprinkler_sensor_OFF", "thing_2_certificate_filename", "thing_2_private_key_filename", "OFF")
 
 
-    for sensor in (soil_sensor_1, soil_sensor_2, soil_sensor_3):
-        sensor.publish()
+    #for sensor in (soil_sensor_1, soil_sensor_2, soil_sensor_3):
+        #sensor.publish()
