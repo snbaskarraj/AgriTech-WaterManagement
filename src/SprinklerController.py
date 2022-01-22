@@ -127,11 +127,6 @@ def main_algorithm(config):
         # check if enough number of devices reporting to alarm, then return true else false
         switch_on_count = 0
         for avg_moisture in sensor_wise_avg_moisture:
-            # ToDo: temporary fix to be remove once all integrations are working fine
-            # pprint(sensor_wise_avg_moisture[avg_moisture])
-            if sensor_wise_avg_moisture[avg_moisture] is None:
-                sensor_wise_avg_moisture[avg_moisture] = 10
-
             pprint(sensor_wise_avg_moisture[avg_moisture])
             if sensor_wise_avg_moisture[avg_moisture] > config['threshold_soil_mois']:
                 switch_on_count = switch_on_count + 1
@@ -141,11 +136,6 @@ def main_algorithm(config):
         # check if enough number of devices reporting to alarm, then return true else false
         switch_on_count = 0
         for avg_temperature in sensor_wise_avg_temperature:
-            # ToDo: temporary fix to be remove once all integrations are working fine
-            pprint(sensor_wise_avg_temperature[avg_temperature])
-            if sensor_wise_avg_temperature[avg_temperature] is None:
-                sensor_wise_avg_temperature[avg_temperature] = 10
-
             if sensor_wise_avg_temperature[avg_temperature] > config['threshold_soil_temp']:
                 switch_on_count = switch_on_count + 1
         temp_sensors_decision = sprinkler["min_devices_to_alarm"] > switch_on_count

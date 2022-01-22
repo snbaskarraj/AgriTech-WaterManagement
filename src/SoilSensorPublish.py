@@ -33,6 +33,7 @@ from Database import get_all_sensor_data
 
 AllowedActions = ['both', 'publish', 'subscribe']
 
+
 # Custom MQTT message callback
 def customCallback(client, userdata, message):
     print("Received a new message: ")
@@ -47,28 +48,32 @@ def publishBedSideMonitorData():
 
     sensors = get_all_sensor_data()
     for sensor in sensors:
-       message['deviceid'] = sensor['sensor_id']
-       try:
-           value = float(random.normalvariate(99, 1.5))
-           value = round(value, 1)
-           timestamp = str(datetime.datetime.now())
-           message['timestamp'] = timestamp
-           message['datatype'] = 'Temperature'
-           message['value'] = value
-           messageJson = json.dumps(message)
-           myAWSIoTMQTTClient.publish(topic, messageJson, 1)
+        message['device_id'] = sensor['sensor_id']
+        try:
+            value = float(random.normalvariate(99, 1.5))
+            value = round(value, 1)
+            timestamp = str(datetime.datetime.now())
+            message['timestamp'] = timestamp
+            message['datatype'] = 'Temperature'
+            message['value'] = value
+            messageJson = json.dumps(message)
+            myAWSIoTMQTTClient.publish(topic, messageJson, 1)
 
-           message['timestamp'] = str(datetime.datetime.now())
-           message['datatype'] = 'Moisture'
-           message['value'] = int(random.normalvariate(90,3.0))
-           messageJson = json.dumps(message)
-           myAWSIoTMQTTClient.publish(topic, messageJson, 1)
+            message['timestamp'] = str(datetime.datetime.now())
+            message['datatype'] = 'Moisture'
+            message['value'] = int(random.normalvariate(90, 3.0))
+            messageJson = json.dumps(message)
+            myAWSIoTMQTTClient.publish(topic, messageJson, 1)
 
-           if args.mode == 'publish':
-               print('Published topic %s: %s\n' % (topic, messageJson))
+            if args.mode == 'publish':
+                print('Published topic %s: %s\n' % (topic, messageJson))
 
-       except publishTimeoutException:
-            print("Unstable connection detected. Wait for {} seconds. No data is pushed on IoT core from {} to {}.".format(DEFAULT_OPERATION_TIMEOUT_SEC, (datetime.datetime.now() - datetime.timedelta(seconds=DEFAULT_OPERATION_TIMEOUT_SEC)), datetime.datetime.now()))
+        except publishTimeoutException:
+            print(
+                "Unstable connection detected. Wait for {} seconds. No data is pushed on IoT core from {} to {}.".format(
+                    DEFAULT_OPERATION_TIMEOUT_SEC,
+                    (datetime.datetime.now() - datetime.timedelta(seconds=DEFAULT_OPERATION_TIMEOUT_SEC)),
+                    datetime.datetime.now()))
 
 
 # Read in command-line parameters
@@ -84,12 +89,15 @@ parser.add_argument("-id", "--clientId", action="store", dest="clientId", defaul
                     help="Targeted client id")
 parser.add_argument("-t", "--topic", action="store", dest="topic", default="sdk/test/Python", help="Targeted topic")
 parser.add_argument("-m", "--mode", action="store", dest="mode", default="both",
-                    help="Operation modes: %s"%str(AllowedActions))
+                    help="Operation modes: %s" % str(AllowedActions))
 parser.add_argument("-M", "--message", action="store", dest="message", default="Hello World!",
                     help="Message to publish")
-parser.add_argument("-d", "--device_type", action="store", dest="device_type", default="Temperature", help="Device Type: Temperature or Moisture")
-parser.add_argument("-n", "--num_of_devices", action="store", dest="num_device", default=1, help="Num of Devices",type=int)
-parser.add_argument("-b", "--base_name", action="store", dest="base_name", default="SS_T_", help="Device Base name prefix")
+parser.add_argument("-d", "--device_type", action="store", dest="device_type", default="Temperature",
+                    help="Device Type: Temperature or Moisture")
+parser.add_argument("-n", "--num_of_devices", action="store", dest="num_device", default=1, help="Num of Devices",
+                    type=int)
+parser.add_argument("-b", "--base_name", action="store", dest="base_name", default="SS_T_",
+                    help="Device Base name prefix")
 
 args = parser.parse_args()
 host = args.host
@@ -155,7 +163,7 @@ time.sleep(2)
 
 now = time.time()
 while True:
-    try :
+    try:
         publishBedSideMonitorData()
     except KeyboardInterrupt:
         break

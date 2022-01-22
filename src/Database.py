@@ -65,15 +65,15 @@ def get_sensor_data(sprinkler_id):
 
 def get_sensor_data_for_time_range(sprinkler_id, sensor_id, start_time, end_time):
     dynamodb = boto3.resource('dynamodb', region_name='us-east-1')
-    sensor_info_table = dynamodb.Table('sensor_info')
+    sensor_info_table = dynamodb.Table('soil_sensor_info')
 
     try:
-        # response = sensor_info_table.query(KeyConditionExpression=Key('sensor_id').eq(sensor_id)
-        #                                                           & Key('timestamp').between(start_time, end_time))
-        kwargs = {'KeyConditionExpression': Key('sprinkler_id').eq(sprinkler_id) &
-                                            Key('timestamp').between(str(start_time), str(end_time)),
-                  'FilterExpression': Attr('sensor_id').eq(sensor_id)}
-        response = sensor_info_table.query(**kwargs)
+        response = sensor_info_table.query(KeyConditionExpression=Key('device_id').eq(sensor_id) &
+                                                                  Key('timestamp').between(str(start_time), str(end_time)))
+        # kwargs = {'KeyConditionExpression': Key('sprinkler_id').eq(sprinkler_id) &
+        #                                     Key('timestamp').between(str(start_time), str(end_time)),
+        #           'FilterExpression': Attr('device_id').eq(sensor_id)}
+        # response = sensor_info_table.query(**kwargs)
         # pprint(response)
     except ClientError as e:
         print(e.response['Error']['Message'])
