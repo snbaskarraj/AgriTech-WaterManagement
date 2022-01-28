@@ -1,12 +1,7 @@
 {
-  "threshold_soil_temp":  25,
-  "threshold_soil_mois":  15,
-
-  "min_threshold_soil_temp":  25,
-  "max_threshold_soil_temp":  40,
-  "min_threshold_soil_mois":  15,
-  "max_threshold_soil_mois":  30,
-
-  "threshold_humidity": 75,
-  "threshold_air_temp": 55
+  "threshold_soil_temp": 99,
+  "threshold_soil_mois": 15,
+  "threshold_humidity": 85,
+  "threshold_air_temp": 0.5,
+  "algorithm_frequency": 5
 }

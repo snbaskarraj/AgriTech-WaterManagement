@@ -1,7 +1,5 @@
+import argparse
 import json
-import sys
-import pandas as pd
-import random
 import datetime
 import requests
 import boto3
@@ -19,10 +17,8 @@ lon = "16.373819" #default
 # to query dynamodb
 def query_db():
     table = dynamodb.Table('sprinkler_info')
-    resp = table.query(
-        KeyConditionExpression=Key('sprinkler_id').eq('sprinkler1')
-    )
-    print(resp['Items'])
+    resp = table.scan()
+    # print(resp['Items'])
     if 'Items' in resp:
         lat = resp['Items'][0]['lat']
         lon = resp['Items'][0]['long']
@@ -56,19 +52,38 @@ lat_long = query_db() #gets the lat and long
 # print(lon)
 print(lat_long)
 
-ONE_HOUR = 1 * 60 * 60  # seconds
-ONE_MINUTE = 1 * 60  # seconds
+# ONE_HOUR = 1 * 60 * 60  # seconds
+# ONE_MINUTE = 1 * 60  # seconds
+#
+# start_time = time.time()
+#
+# current_time = start_time
+# while current_time <= start_time + ONE_HOUR - ONE_MINUTE:
+#     time.sleep(ONE_MINUTE)
+#     current_time = time.time()
+#     url = "https://api.openweathermap.org/data/2.5/onecall?lat=%s&lon=%s&appid=%s&units=metric" % (lat, lon, api_key)
+#     response = requests.get(url)
+#     data = json.loads(response.text)
+#
+#     #print(data)
+#
+#     put_item_in_database(data) #writes into db
 
-start_time = time.time()
 
-current_time = start_time
-while current_time <= start_time + ONE_HOUR - ONE_MINUTE:
-    time.sleep(ONE_MINUTE)
-    current_time = time.time()
+# Read in command-line parameters
+parser = argparse.ArgumentParser()
+parser.add_argument("-t", "--time", action="store", required=True, type=int, dest="sleep_time", default=30,
+                    help="Time interval in secs to run")
+args = parser.parse_args()
+sleep_time = args.sleep_time
+
+while True:
     url = "https://api.openweathermap.org/data/2.5/onecall?lat=%s&lon=%s&appid=%s&units=metric" % (lat, lon, api_key)
     response = requests.get(url)
     data = json.loads(response.text)
+    # print(data)
 
-    #print(data)
+    # writes into db
+    put_item_in_database(data)
 
-    put_item_in_database(data) #writes into db
+    time.sleep(sleep_time)

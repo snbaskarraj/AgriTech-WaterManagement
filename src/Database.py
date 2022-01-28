@@ -63,17 +63,36 @@ def get_sensor_data(sprinkler_id):
         return response
 
 
-def get_sensor_data_for_time_range(sprinkler_id, sensor_id, start_time, end_time):
+def get_sensor_data_for_time_range(sensor_id, start_time, end_time):
     dynamodb = boto3.resource('dynamodb', region_name='us-east-1')
     sensor_info_table = dynamodb.Table('soil_sensor_info')
 
     try:
-        response = sensor_info_table.query(KeyConditionExpression=Key('device_id').eq(sensor_id) &
-                                                                  Key('timestamp').between(str(start_time), str(end_time)))
-        # kwargs = {'KeyConditionExpression': Key('sprinkler_id').eq(sprinkler_id) &
-        #                                     Key('timestamp').between(str(start_time), str(end_time)),
-        #           'FilterExpression': Attr('device_id').eq(sensor_id)}
-        # response = sensor_info_table.query(**kwargs)
+        # response = sensor_info_table.query(
+        #     KeyConditionExpression=Key('device_id').eq(sensor_id) &
+        #                            Key('timestamp').between(str(start_time), str(end_time))
+        #                                    )
+        kwargs = {'KeyConditionExpression': Key('device_id').eq(sensor_id) &
+                                            Key('timestamp').between(str(start_time), str(end_time)),
+                  'ScanIndexForward': False,
+                  'Limit': 2}
+        response = sensor_info_table.query(**kwargs)
+        # pprint(response)
+    except ClientError as e:
+        print(e.response['Error']['Message'])
+    else:
+        return response
+
+
+def get_last_average_data_for_sensor(sensor_id):
+    dynamodb = boto3.resource('dynamodb', region_name='us-east-1')
+    sensor_info_table = dynamodb.Table('soil_sensor_info')
+
+    try:
+        kwargs = {'KeyConditionExpression': Key('device_id').eq(sensor_id),
+                  'ScanIndexForward': False,
+                  'Limit': 1}
+        response = sensor_info_table.query(**kwargs)
         # pprint(response)
     except ClientError as e:
         print(e.response['Error']['Message'])
@@ -86,7 +105,11 @@ def get_last_action(sprinkler_id):
     sprinkler_action_table = dynamodb.Table('sprinkler_actions')
 
     try:
-        response = sprinkler_action_table.query(KeyConditionExpression=Key('sprinkler_id').eq(sprinkler_id))
+        # response = sprinkler_action_table.query(KeyConditionExpression=Key('sprinkler_id').eq(sprinkler_id))
+        kwargs = {'KeyConditionExpression': Key('sprinkler_id').eq(sprinkler_id),
+                  'ScanIndexForward': False,
+                  'Limit': 1}
+        response = sprinkler_action_table.query(**kwargs)
         # pprint(response)
     except ClientError as e:
         print(e.response['Error']['Message'])

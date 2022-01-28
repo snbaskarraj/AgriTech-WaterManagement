@@ -1,6 +1,10 @@
-# Publish soil sensor data messages to iot core
-python SoilSensorPublish.py -e a1ydwct3h0biqw-ats.iot.us-east-1.amazonaws.com -r ..\certs\AmazonRootCA1.pem -c  ..\certs\SS_Temp01-certificate.pem.crt -k ..\certs\SS_Temp01-private.pem.key -t iot/agritech
+# publish weather info. Argument -t takes time interval in secs 
+python weatherapipublish.py -t 10
 
-# Subscribe messages from sprinkler controller
-python SprinklerActuator.py -e a1ydwct3h0biqw-ats.iot.us-east-1.amazonaws.com -r ..\certs\AmazonRootCA1.pem -c  ..\certs\SS_Temp01-certificate.pem.crt -k ..\certs\SS_Temp01-private.pem.key -t iot/agritech
+# Publish soil sensor data messages to iot core
+python SoilSensorDataSimulator.py -e a1ydwct3h0biqw-ats.iot.us-east-1.amazonaws.com -r ..\config\AmazonRootCA1.pem -c  ..\config\SS_Temp01-certificate.pem.crt -k ..\config\SS_Temp01-private.pem.key -t iot/agritech_raw -d Temperature
+python SoilSensorDataSimulator.py -e a1ydwct3h0biqw-ats.iot.us-east-1.amazonaws.com -r ..\config\AmazonRootCA1.pem -c  ..\config\SS_Temp01-certificate.pem.crt -k ..\config\SS_Temp01-private.pem.key -t iot/agritech_raw -d Moisture
+
+# sprinkler controller
+python SprinklerControllerAlg.py -e a1ydwct3h0biqw-ats.iot.us-east-1.amazonaws.com -r ..\config\AmazonRootCA1.pem -c  ..\config\sprinkler-action-certificate.pem.crt -k ..\config\sprinkler-action-private.pem.key -t iot/sprinkler
 

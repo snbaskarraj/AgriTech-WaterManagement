@@ -1,8 +1,7 @@
 import json
-import uuid
 import datetime
 
-from src.Database import put_soil_sensor_data, put_sprinkler_info, put_sensor_info, get_sprinkler_data
+from Database import put_sprinkler_info, put_sensor_info, get_sprinkler_data
 
 
 def generate_and_populate_devices(config):
@@ -27,8 +26,8 @@ def generate_and_populate_devices(config):
             print(sprinkler_info)
 
         for sen_id in range(1, sprinkler["devices_per_sprinkler"] + 1):
-            temp_sensor_id = 'temp_' + str(uuid.uuid1())
-            mois_sensor_id = 'mois_' + str(uuid.uuid1())
+            temp_sensor_id = sprinkler['id'] + '_STS_' + str(sen_id)
+            mois_sensor_id = sprinkler['id'] + '_SMS_' + str(sen_id)
             timestamp = str(datetime.datetime.now())
             temp_device_type = 'Temperature'
             mois_device_type = 'Moisture'
@@ -38,18 +37,10 @@ def generate_and_populate_devices(config):
             sensor_info = put_sensor_info(temp_sensor_id, str(datetime.datetime.now()), temp_device_type, sprinkler_id)
             # print(sensor_info)
 
-            # sample soil sensor data to be populated for temperature just as a check
-            # soil_sensor_data = put_soil_sensor_data(temp_sensor_id, timestamp, temp_device_type, '10')
-            # print(soil_sensor_data)
-
             print(f'sensor_id: {mois_sensor_id}; timestamp: {timestamp}; device_type: {mois_device_type}; '
                   f'sprinkler_id: {sprinkler_id}; ')
             sensor_info = put_sensor_info(mois_sensor_id, str(datetime.datetime.now()), mois_device_type, sprinkler_id)
             # print(sensor_info)
-
-            # sample soil sensor data to be populated for moisture just as a check
-            # soil_sensor_data = put_soil_sensor_data(mois_sensor_id, timestamp, mois_device_type, '10')
-            # print(soil_sensor_data)
 
 
 def load_config(file_name):
