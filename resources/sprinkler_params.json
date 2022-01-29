@@ -1,7 +1,9 @@
 {
   "threshold_soil_temp": 99,
   "threshold_soil_mois": 15,
-  "threshold_humidity": 85,
-  "threshold_air_temp": 0.5,
+  "upper_threshold_humidity": 85,
+  "upper_threshold_air_temp": 0.5,
+  "lower_threshold_humidity": 75,
+  "lower_threshold_air_temp": 0.2,
   "algorithm_frequency": 5
 }

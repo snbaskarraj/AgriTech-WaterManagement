@@ -1,10 +1,22 @@
-# publish weather info. Argument -t takes time interval in secs 
-python weatherapipublish.py -t 10
+# Detailed description about each files in this project
+AgriWaterTech_ss_data_aggr_lambda.py  ==> python code used in lambda to aggregate and finds average for soil sensor data every 5 mins
+AgriWaterTech_ss_pipeline_lambda.py.py ==> converts to UTC timestamp
+CreateTables.py ==> creates all necessary tables used in this project
+Database.py ==> Holds all functions which used to query DynamoDB
+DeviceOnboarding.py ==> Creates devices (sprinklers and sensors) as per the configuration given in the device_config.json file
+SoilSensorDataSimulator.py ==> Data Simulator for Soil Sensor for data type Temperature and Moisture and publishes to IoT Core
+SprinklerActionPublish.py ==> Publishes the decision to IoT Core
+SprinklerController.py ==> Runs in 5mins schedule and makes decision based on the recent weather data and the soil moisture and temperature data
+WeatherDataPopulator.py ==> Runs in given interval and collects the weather data for the given latitude and longitude for the sprinklers
+
+# Following commands will be used to kick start the respective modules from directory <AgriTech-WaterManagement>/src/
+
+# publish weather info. Argument -t takes time interval in secs
+python3 WeatherDataPublish.py -t 10
 
 # Publish soil sensor data messages to iot core
-python SoilSensorDataSimulator.py -e a1ydwct3h0biqw-ats.iot.us-east-1.amazonaws.com -r ..\config\AmazonRootCA1.pem -c  ..\config\SS_Temp01-certificate.pem.crt -k ..\config\SS_Temp01-private.pem.key -t iot/agritech_raw -d Temperature
-python SoilSensorDataSimulator.py -e a1ydwct3h0biqw-ats.iot.us-east-1.amazonaws.com -r ..\config\AmazonRootCA1.pem -c  ..\config\SS_Temp01-certificate.pem.crt -k ..\config\SS_Temp01-private.pem.key -t iot/agritech_raw -d Moisture
+python3 SoilSensorDataSimulator.py -e a1ydwct3h0biqw-ats.iot.us-east-1.amazonaws.com -r ../config/AmazonRootCA1.pem -c  ../config/SS_Temp01-certificate.pem.crt -k ../config/SS_Temp01-private.pem.key -t iot/agritech_raw -d Temperature
+python3 SoilSensorDataSimulator.py -e a1ydwct3h0biqw-ats.iot.us-east-1.amazonaws.com -r ../config/AmazonRootCA1.pem -c  ../config/SS_Temp01-certificate.pem.crt -k ../config/SS_Temp01-private.pem.key -t iot/agritech_raw -d Moisture
 
 # sprinkler controller
-python SprinklerControllerAlg.py -e a1ydwct3h0biqw-ats.iot.us-east-1.amazonaws.com -r ..\config\AmazonRootCA1.pem -c  ..\config\sprinkler-action-certificate.pem.crt -k ..\config\sprinkler-action-private.pem.key -t iot/sprinkler
-
+python3 SprinklerController.py -e a1ydwct3h0biqw-ats.iot.us-east-1.amazonaws.com -r ../config/AmazonRootCA1.pem -c  ../config/sprinkler-action-certificate.pem.crt -k ../config/sprinkler-action-private.pem.key -t iot/sprinkler

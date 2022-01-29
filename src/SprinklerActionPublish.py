@@ -3,20 +3,12 @@ import json
 import AWSIoTPythonSDK.MQTTLib as AWSIoTPyMQTT
 import datetime
 
-# Define ENDPOINT, TOPIC, RELATIVE DIRECTORY for CERTIFICATE AND KEYS
-# ENDPOINT = "a1ydwct3h0biqw-ats.iot.us-east-1.amazonaws.com"
-# PATH_TO_CERT = "..\\config"
-# TOPIC = "iot/sprinkler"
-
 
 class AWS:
     # Constructor that accepts client id that works as client id and file names for different devices
     # This method will create the MQTT client for AWS using the credentials
     def __init__(self, client, endpoint, port, root_ca_path, certificate, private_key):
         self.client_id = client
-        # self.cert_path = PATH_TO_CERT + "\\" + certificate
-        # self.pvt_key_path = PATH_TO_CERT + "\\" + private_key
-        # self.root_path = PATH_TO_CERT + "\\" + "AmazonRootCA1.pem"
         self.cert_path = certificate
         self.pvt_key_path = private_key
         self.root_path = root_ca_path

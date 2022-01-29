@@ -32,7 +32,8 @@ def put_item_in_database(data):
     timestamp = str(datetime.datetime.now())
     temperature = data["current"]["temp"]
     humidity = data["current"]["humidity"]
-
+    # temperature = 0.4
+    # humidity = 75
     resp = table.put_item(
             Item={
                 'timestamp': timestamp,

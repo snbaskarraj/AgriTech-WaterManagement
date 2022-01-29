@@ -123,7 +123,11 @@ def get_weather_for_given_lat_long(lat, long):
 
     try:
         lat_long = str(lat) + "_" + str(long)
-        response = sensor_info_table.query(KeyConditionExpression=Key('lat_long').eq(lat_long))
+        # response = sensor_info_table.query(KeyConditionExpression=Key('lat_long').eq(lat_long))
+        kwargs = {'KeyConditionExpression': Key('lat_long').eq(lat_long),
+                  'ScanIndexForward': False,
+                  'Limit': 1}
+        response = sensor_info_table.query(**kwargs)
         # pprint(response)
     except ClientError as e:
         print(e.response['Error']['Message'])
