@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Dashboard</title>
+    <!-- Include Chart.js from CDN -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body>
+    <h2>Soil Sensor Data</h2>
+    <canvas id="soilSensorChart"></canvas>
+
+    <h2>Sprinkler Data</h2>
+    <canvas id="sprinklerChart"></canvas>
+
+    <h2>Weather Data</h2>
+    <canvas id="weatherChart"></canvas>
+
+    <script>
+        const soilSensorData = JSON.parse('{{ soil_sensor_data | tojson | safe }}');
+        const sprinklerData = JSON.parse('{{ sprinkler_data | tojson | safe }}');
+        const weatherData = JSON.parse('{{ weather_data | tojson | safe }}');
+
+        // Soil Sensor Chart
+        const soilSensorChartCtx = document.getElementById('soilSensorChart').getContext('2d');
+        const soilSensorChart = new Chart(soilSensorChartCtx, {
+            type: 'line',
+            data: {
+                labels: soilSensorData.map(data => data.timestamp),
+                datasets: [{
+                    label: 'Soil Moisture Level',
+                    data: soilSensorData.map(data => data.moisture),
+                    borderColor: 'rgb(75, 192, 192)',
+                    tension: 0.1
+                }]
+            },
+            options: {
+                scales: {
+                    y: {
+                        beginAtZero: true
+                    }
+                }
+            }
+        });
+
+        // Sprinkler Chart
+        const sprinklerChartCtx = document.getElementById('sprinklerChart').getContext('2d');
+        const sprinklerChart = new Chart(sprinklerChartCtx, {
+            type: 'bar',
+            data: {
+                labels: sprinklerData.map(data => data.timestamp),
+                datasets: [{
+                    label: 'Sprinkler Activation',
+                    data: sprinklerData.map(data => data.activationLevel),
+                    backgroundColor: 'rgba(54, 162, 235, 0.2)',
+                    borderColor: 'rgba(54, 162, 235, 1)',
+                    borderWidth: 1
+                }]
+            },
+            options: {
+                scales: {
+                    y: {
+                        beginAtZero: true
+                    }
+                }
+            }
+        });
+
+        // Weather Chart
+        const weatherChartCtx = document.getElementById('weatherChart').getContext('2d');
+        const weatherChart = new Chart(weatherChartCtx, {
+            type: 'line',
+            data: {
+                labels: weatherData.map(data => data.timestamp),
+                datasets: [{
+                    label: 'Temperature',
+                    data: weatherData.map(data => data.temperature),
+                    borderColor: 'rgb(255, 99, 132)',
+                    tension: 0.1
+                },
+                {
+                    label: 'Humidity',
+                    data: weatherData.map(data => data.humidity),
+                    borderColor: 'rgb(53, 162, 235)',
+                    tension: 0.1
+                }]
+            },
+            options: {
+                scales: {
+                    y: {
+                        beginAtZero: true
+                    }
+                }
+            }
+        });
+    </script>
+</body>
+</html>
