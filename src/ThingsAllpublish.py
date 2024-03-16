@@ -6,8 +6,8 @@ import os
 # AWS IoT Core Details
 region = "us-east-1"
 endpoint = "a3afaswqeqldkp-ats.iot.us-east-1.amazonaws.com"
-aws_access_key_id = 'AKIAZMUANO4CSG3VIVW6'
-aws_secret_access_key = '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'
+aws_access_key_id = ''
+aws_secret_access_key = ''
 
 # Initialize boto3 client
 iot_client = boto3.client('iot', region_name=region, aws_access_key_id=aws_access_key_id, aws_secret_access_key=aws_secret_access_key)
